@@ -1,6 +1,7 @@
 package Pages;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -19,12 +20,15 @@ public class SignUpForm extends Form{
     private JPasswordField passwordField1;
     private JPasswordField passwordField2;
     private JButton loginButton;
+    private JLabel titleLabel;
     private JFrame signupFrame;
 
     public  SignUpForm(Connection con){
         signupFrame = new JFrame();
+        signupFrame.setTitle("hideMe | SignUp");
+        titleLabel.setFont(new Font("Verdana", Font.BOLD, 25));
         signupFrame.setContentPane(signupPanel);
-        signupFrame.setSize(300,500);
+        signupFrame.setSize(350,500);
         signupFrame.setVisible(true);
         signupFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,10 +46,6 @@ public class SignUpForm extends Form{
                 new LoginForm(con);
             }
         });
-
-        this.name = nameField.getText();
-        this.username = usernameField.getText();
-        this.email = usernameField.getText();
     }
 
     public boolean isValidUserName(Connection con, String username)

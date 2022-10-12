@@ -1,6 +1,7 @@
 package Pages;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class MessageDialog extends JDialog {
@@ -10,8 +11,10 @@ public class MessageDialog extends JDialog {
 
     public MessageDialog(){};
     public MessageDialog(String message) {
+        setTitle("hideMe | Message Box");
         setContentPane(contentPane);
         setModal(true);
+        setPreferredSize(new Dimension(300,200));
         getRootPane().setDefaultButton(buttonOK);
         messageField.setText(message);
 
@@ -20,13 +23,6 @@ public class MessageDialog extends JDialog {
                 onOK();
             }
         });
-
-        // call onCancel() on ESCAPE
-//        contentPane.registerKeyboardAction(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                onCancel();
-//            }
-//        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
