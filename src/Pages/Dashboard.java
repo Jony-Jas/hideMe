@@ -1,8 +1,13 @@
 package Pages;
 
+import Encrypt.EncryptPassword;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +28,10 @@ public class Dashboard  extends Form {
     private JLabel nameLabel;
     private JButton editButton;
     private int id;
+    private EncryptPassword encryptPassword;
 
     public Dashboard(Connection con, int userid, String username){
+        encryptPassword = new EncryptPassword();
         JFrame dashBoardFrame = new JFrame();
         id = userid;
 
@@ -75,7 +82,8 @@ public class Dashboard  extends Form {
             {
                 dataArea.append(" "+res.getString(2)+"\n");
                 dataArea.append(" Username: "+res.getString(3)+"\n");
-                dataArea.append(" Password: "+res.getString(4)+"\n");
+                String pass = res.getString(4);
+                dataArea.append(" Password: "+encryptPassword.decryptedData(pass)+"\n");
                 dataArea.append(" Last Modified: "+res.getString(5)+"\n");
                 dataArea.append("*******************************************"+"\n\n");
             }
@@ -92,7 +100,7 @@ public class Dashboard  extends Form {
 
         String username = usernameField.getText();
         usernameField.setText("");
-        String password = passwordField.getText();
+        String password = encryptPassword.encryptedData(passwordField.getText());
         passwordField.setText("");
         String site_name = site_nameField.getText();
         site_nameField.setText("");
@@ -152,7 +160,7 @@ public class Dashboard  extends Form {
 
                 while (res.next()) {
                     username += res.getString(3);
-                    password += res.getString(4);
+                    password += encryptPassword.decryptedData(res.getString(4));
                 }
 
             if(username.equals("")) {
@@ -173,7 +181,7 @@ public class Dashboard  extends Form {
 
         String username = usernameField.getText();
         usernameField.setText("");
-        String password = passwordField.getText();
+        String password = encryptPassword.encryptedData(passwordField.getText());
         passwordField.setText("");
         String site_name = site_nameField.getText();
         site_nameField.setText("");
